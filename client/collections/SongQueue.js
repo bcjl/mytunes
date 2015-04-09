@@ -7,6 +7,12 @@ var SongQueue = Songs.extend({
       this.playFirst()
     }
     });
+
+    this.on({
+      'ended':this.dequeue, 
+      'dequeue':this.dequeue
+    });
+    // this.on('dequeue', this.dequeue);
   },
 
   playFirst: function(){
@@ -15,15 +21,13 @@ var SongQueue = Songs.extend({
 
   enqueue: function(song){
     this.add(song);
-    console.log('enqueue was caled');
-    this.playFirst();
-    // if(true){
-    //   this.playFirst();
-    // } 
   },
 
-  dequeue: function(song){
-    this.remove();
+  dequeue: function(){
+    this.remove(this.at(0));
+    if(this.length > 0){
+      this.playFirst();
+    }
   },
 
 });
